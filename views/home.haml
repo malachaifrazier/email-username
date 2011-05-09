@@ -1,0 +1,31 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+-# If you want to submit to the server and validate there, go for it...
+
+-# Check out the below for a simple jquery validator--that might be what you need.
+-# http://webcloud.se/log/Form-validation-with-jQuery-from-scratch/
+:javascript
+  $(function(){
+    $(document).ready(function() {
+      $('form input#user_email')
+    });
+  });
+
+%h1 Collecting Data
+
+- if !@errors.nil? && @errors.length > 0
+  %p There was an error...
+  %ul
+    - @errors.each do |e|
+      %li= e
+- elsif @user
+  %p Thanks for creating a user!
+
+%form{:action => "/", :method => "post"}
+  %fieldset
+    %label{:for => "user_email"}
+      Email Address
+    %input{:type => "email", :id => "user_email", :name => "user[email]"}
+    %label{:for => "user_username"}
+      Username
+    %input{:type => "text", :id => "user_username", :name => "user[username]"}
+    %input{:type => "submit", :value => "Submit"}
