@@ -1,19 +1,28 @@
 require 'rubygems'
 require 'bundler'
 Bundler.require
-require 'active_record'
+require 'sinatra/activerecord'
+require 'rack-flash'
+require 'sinatra/redirect_with_flash'
 require 'sinatra'
+require 'pg'
 
-require 'yaml'
-db_config = YAML.load(File.read('config/database.yml'))
-ActiveRecord::Base.establish_connection db_config['development']
+configure do
+  set :public_folder, Proc.new { File.join(root, "static") }
+end
+
+ActiveRecord::Base.establish_connection("postgres://postgres:danladi@localhost:5433/postgres")
+
+# require 'yaml'
+# db_config = YAML.load(File.read('config/database.yml'))
+# ActiveRecord::Base.establish_connection db_config['email_development']
 
 class User < ActiveRecord::Base
-  validates :email, :username, :presence => {:message => "must be set"}, :uniqueness => {:message => "must be unique"}
+  validates :email, :name, :presence => {:message => "must be set"}, :uniqueness => {:message => "must be unique"}
 end
 
 get '/' do
-  haml :home
+  erb :home
 end
 
 post '/' do
@@ -22,6 +31,6 @@ post '/' do
   else
     @user = User.new(params[:user])
     @errors = @user.errors.full_messages unless @user.save
-    haml :home
+    erb :home
   end
 end
