@@ -22,6 +22,9 @@ class User < ActiveRecord::Base
             :name, 
             :presence => {:message => "must be set"}, 
             :uniqueness => {:message => "must be unique"}
+  validates :email, :name, 
+  :presence => {:message => "must be set"}, 
+  :uniqueness => {:message => "must be unique"}
 end
 
 get '/' do
