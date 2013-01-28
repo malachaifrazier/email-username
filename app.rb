@@ -18,7 +18,9 @@ ActiveRecord::Base.establish_connection("postgres://postgres:danladi@localhost:5
 # ActiveRecord::Base.establish_connection db_config['email_development']
 
 class User < ActiveRecord::Base
-  validates :email, :name, :presence => {:message => "must be set"}, :uniqueness => {:message => "must be unique"}
+  validates :email, :name, 
+  :presence => {:message => "must be set"}, 
+  :uniqueness => {:message => "must be unique"}
 end
 
 get '/' do
